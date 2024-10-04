@@ -1,0 +1,14 @@
+.home {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  gap: 20px;
+}
+
+.home > * {
+  border: 1px solid green;
+}
