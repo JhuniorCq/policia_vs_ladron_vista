@@ -11,3 +11,8 @@ export const DIFFICULTIES = {
   NORMAL: "Normal",
   EXPERT: "Experto",
 };
+
+export const ROLES = {
+  POLICE: "Policía",
+  THIEF: "Ladrón",
+};

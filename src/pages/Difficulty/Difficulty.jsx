@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
 import "./Difficulty.css";
 import { useContext } from "react";
@@ -9,9 +9,8 @@ export const Difficulty = () => {
   const { chooseDifficulty } = useContext(GameSettingsContext);
   const navigate = useNavigate();
 
-  const nextRoute = (difficulty) => {
+  const setDifficulty = (difficulty) => {
     chooseDifficulty(difficulty);
-    navigate("/game");
   };
 
   return (
@@ -21,22 +20,23 @@ export const Difficulty = () => {
         <li>
           <OptionButton
             text={DIFFICULTIES.BEGINNER}
-            nextRoute={() => nextRoute(DIFFICULTIES.BEGINNER)}
+            eventHandler={() => setDifficulty(DIFFICULTIES.BEGINNER)}
           />
         </li>
         <li>
           <OptionButton
             text={DIFFICULTIES.NORMAL}
-            nextRoute={() => nextRoute(DIFFICULTIES.NORMAL)}
+            eventHandler={() => setDifficulty(DIFFICULTIES.NORMAL)}
           />
         </li>
         <li>
           <OptionButton
             text={DIFFICULTIES.EXPERT}
-            nextRoute={() => nextRoute(DIFFICULTIES.EXPERT)}
+            eventHandler={() => setDifficulty(DIFFICULTIES.EXPERT)}
           />
         </li>
       </ul>
+      <Link to="/game/rol">Siguiente</Link>
     </div>
   );
 };

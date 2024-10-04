@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Home.css";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
 import { useContext } from "react";
@@ -9,9 +9,8 @@ export const Home = () => {
   const { chooseGameMode } = useContext(GameSettingsContext);
   const navigate = useNavigate();
 
-  const nextRoute = (gameMode) => {
+  const setGameMode = (gameMode) => {
     chooseGameMode(gameMode);
-    navigate("/difficulty");
   };
 
   return (
@@ -21,7 +20,7 @@ export const Home = () => {
         <li className="home__option">
           <OptionButton
             text={GAME_MODE.HUMAN_VS_PC}
-            nextRoute={() => nextRoute(GAME_MODE.HUMAN_VS_PC)}
+            eventHandler={() => setGameMode(GAME_MODE.HUMAN_VS_PC)}
           />
         </li>
         {/* <li>
@@ -31,6 +30,7 @@ export const Home = () => {
           <button></button>
         </li> */}
       </ul>
+      <Link to="/game/difficulty">Siguiente</Link>
     </div>
   );
 };
