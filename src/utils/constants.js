@@ -16,3 +16,13 @@ export const ROLES = {
   POLICE: "Policía",
   THIEF: "Ladrón",
 };
+
+// export const TURNS = {
+//   POLICE: "Policía",
+//   THIEF: "Ladrón",
+// };
+
+export const PLAYERS = {
+  USER: "Usuario",
+  PC: "IA",
+};

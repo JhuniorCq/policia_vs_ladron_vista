@@ -1,0 +1,7 @@
+.square {
+  /* De ahi lo cambio a 20 y 25 */
+  width: calc(100% / 20);
+  height: calc(100% / 25);
+  background-color: rgb(34, 228, 34);
+  border: 1px solid black;
+}

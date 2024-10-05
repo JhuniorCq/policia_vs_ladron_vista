@@ -4,7 +4,7 @@ import { ROLES } from "../../utils/constants";
 
 export const GameSettingsProvider = ({ children }) => {
   const [gameSettings, setGameSettings] = useState({
-    gameMode: "",
+    gameMode: "Humano vs PC",
     difficulty: "",
     players: {
       player1: {
@@ -16,9 +16,9 @@ export const GameSettingsProvider = ({ children }) => {
     },
   });
 
-  const chooseGameMode = (gameMode) => {
-    setGameSettings({ ...gameSettings, gameMode });
-  };
+  // const chooseGameMode = (gameMode) => {
+  //   setGameSettings({ ...gameSettings, gameMode });
+  // };
 
   const chooseDifficulty = (difficulty) => {
     setGameSettings({ ...gameSettings, difficulty });
@@ -40,7 +40,7 @@ export const GameSettingsProvider = ({ children }) => {
 
   return (
     <GameSettingsContext.Provider
-      value={{ gameSettings, chooseGameMode, chooseDifficulty, chooseRol }}
+      value={{ gameSettings, chooseDifficulty, chooseRol }}
     >
       {children}
     </GameSettingsContext.Provider>
