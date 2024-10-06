@@ -6,6 +6,7 @@ export const GameSettingsProvider = ({ children }) => {
   const [gameSettings, setGameSettings] = useState({
     gameMode: "Humano vs PC",
     difficulty: "",
+    startTurn: "",
     players: {
       player1: {
         rol: "",
@@ -34,9 +35,13 @@ export const GameSettingsProvider = ({ children }) => {
     setGameSettings({ ...gameSettings, players });
   };
 
+  const defineStartTurn = (startTurn) => {
+    setGameSettings({ ...gameSettings, startTurn });
+  };
+
   return (
     <GameSettingsContext.Provider
-      value={{ gameSettings, chooseDifficulty, chooseRol }}
+      value={{ gameSettings, chooseDifficulty, chooseRol, defineStartTurn }}
     >
       {children}
     </GameSettingsContext.Provider>

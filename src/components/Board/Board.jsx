@@ -6,21 +6,31 @@ import { Square } from "../Square/Square";
 import policeImage from "../../assets/image/police.png";
 import thiefImage from "../../assets/image/thief.png";
 
-export const Board = ({ turn }) => {
+export const Board = ({
+  turn,
+  takeStep,
+  steps,
+  policePosition,
+  setPolicePosition,
+  thiefPosition,
+  setThiefPosition,
+}) => {
+  console.log("Estoy en Board.jsx y mis steps son: ", steps);
   const { gameSettings } = useContext(GameSettingsContext);
   console.log(gameSettings);
 
   // Estado para las posiciones de los jugadores
-  const [policePosition, setPolicePosition] = useState({ row: 0, col: 0 });
-  const [thiefPosition, setThiefPosition] = useState({
-    row: ROWS - 1,
-    col: COLS - 1,
-  });
+  // const [policePosition, setPolicePosition] = useState({ row: 0, col: 0 });
+  // const [thiefPosition, setThiefPosition] = useState({
+  //   row: ROWS - 1,
+  //   col: COLS - 1,
+  // });
 
   // Función para actualizar la posición del usuario
   const handleKeyPress = (event) => {
     console.log(turn);
-    // if (turn !== PLAYERS.USER) return;
+    console.log(steps);
+    if (steps === 0) return;
 
     const userRol = gameSettings.players.player1.rol;
 
@@ -38,6 +48,8 @@ export const Board = ({ turn }) => {
               col: prev.col,
             }))
           : null;
+
+        takeStep();
         break;
       }
       case "ArrowDown": {
@@ -52,6 +64,8 @@ export const Board = ({ turn }) => {
               col: prev.col,
             }))
           : null;
+
+        takeStep();
         break;
       }
       case "ArrowLeft": {
@@ -66,6 +80,8 @@ export const Board = ({ turn }) => {
               col: Math.max(prev.col - 1, 0),
             }))
           : null;
+
+        takeStep();
         break;
       }
       case "ArrowRight": {
@@ -80,6 +96,8 @@ export const Board = ({ turn }) => {
               col: Math.min(prev.col + 1, COLS - 1),
             }))
           : null;
+
+        takeStep();
         break;
       }
     }
@@ -95,7 +113,7 @@ export const Board = ({ turn }) => {
         window.removeEventListener("keydown", handleKeyPress);
       };
     }
-  }, []);
+  }, [steps]);
 
   return (
     <div className="board">

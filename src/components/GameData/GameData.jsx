@@ -1,6 +1,6 @@
 import "./GameData.css";
 
-export const GameData = ({ difficulty, rol, turn, steps = "-" }) => {
+export const GameData = ({ difficulty, rol, turn, steps }) => {
   return (
     <div className="game-data">
       <div className="game-data__data-box">
