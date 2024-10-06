@@ -72,17 +72,6 @@ export const Game = () => {
     defineStartTurn(turn);
   }, []);
 
-  // useEffect(() => {
-  //   if (steps === 0) {
-  //     if (isFirstRender.current) {
-  //       isFirstRender.current = false;
-  //       return;
-  //     }
-  //   }
-
-  //   passNextTurn();
-  // }, [steps]);
-
   return (
     <div className="game">
       <Board

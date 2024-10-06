@@ -83,13 +83,31 @@ export const Board = ({
         pcPositionStatus.push(setThiefPosition);
       }
 
-      let stepCounter = steps;
+      // Movimientos automáticos para la IA (movimiento en una dirección o aleatorio)
+      const directions = ["w", "s", "a", "d"];
+      const moveInRandomDirection = () => {
+        const randomDirection =
+          directions[Math.floor(Math.random() * directions.length)];
+        movePlayer(
+          turn,
+          randomDirection,
+          pcPositionStatus,
+          takeStep,
+          steps,
+          passNextTurn
+        );
+      };
 
-      while (stepCounter > 0) {
-        movePlayer(turn, "d", pcPositionStatus, takeStep, steps, passNextTurn);
+      // Usamos setTimeOut para hacer los movimientos de la IA con un pequeño retraso entre cada uno
+      const intervalId = setInterval(() => {
+        if (steps > 0) {
+          moveInRandomDirection();
+        } else {
+          clearInterval(intervalId);
+        }
+      }, 1000);
 
-        stepCounter--;
-      }
+      return () => clearInterval(intervalId);
     }
   }, [turn, steps]);
 
