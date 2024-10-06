@@ -1,5 +1,5 @@
 import "./Board.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { COLS, PLAYERS, ROLES, ROWS } from "../../utils/constants";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { Square } from "../Square/Square";
@@ -18,7 +18,6 @@ export const Board = ({
   rollDie,
   passNextTurn,
 }) => {
-  console.log("Estoy en Board.jsx y mis steps son: ", steps);
   const { gameSettings } = useContext(GameSettingsContext);
   console.log(gameSettings);
 
@@ -27,10 +26,6 @@ export const Board = ({
     if (steps === 0) return;
 
     const userRol = gameSettings.players.player1.rol;
-    // const userPosition =
-    //   userRol === ROLES.POLICE ? policePosition : thiefPosition;
-
-    // const userSetPosition =
 
     let userPositionStatus = [];
 
@@ -43,84 +38,14 @@ export const Board = ({
     }
 
     console.log(event);
-    const validMove = movePlayer(
+    movePlayer(
       turn,
       event.key,
       userPositionStatus,
       takeStep,
-      setPolicePosition,
-      setThiefPosition
+      steps,
+      passNextTurn
     );
-
-    if (steps - 1 === 0 && validMove) {
-      passNextTurn();
-    }
-    // switch (event.key) {
-    //   case "ArrowUp": {
-    //     userRol === ROLES.POLICE
-    //       ? setPolicePosition((prev) => ({
-    //           row: Math.max(prev.row - 1, 0),
-    //           col: prev.col,
-    //         }))
-    //       : userRol === ROLES.THIEF
-    //       ? setThiefPosition((prev) => ({
-    //           row: Math.max(prev.row - 1, 0),
-    //           col: prev.col,
-    //         }))
-    //       : null;
-
-    //     takeStep();
-    //     break;
-    //   }
-    //   case "ArrowDown": {
-    //     userRol === ROLES.POLICE
-    //       ? setPolicePosition((prev) => ({
-    //           row: Math.min(prev.row + 1, ROWS - 1),
-    //           col: prev.col,
-    //         }))
-    //       : userRol === ROLES.THIEF
-    //       ? setThiefPosition((prev) => ({
-    //           row: Math.min(prev.row + 1, ROWS - 1),
-    //           col: prev.col,
-    //         }))
-    //       : null;
-
-    //     takeStep();
-    //     break;
-    //   }
-    //   case "ArrowLeft": {
-    //     userRol === ROLES.POLICE
-    //       ? setPolicePosition((prev) => ({
-    //           row: prev.row,
-    //           col: Math.max(prev.col - 1, 0),
-    //         }))
-    //       : userRol === ROLES.THIEF
-    //       ? setThiefPosition((prev) => ({
-    //           row: prev.row,
-    //           col: Math.max(prev.col - 1, 0),
-    //         }))
-    //       : null;
-
-    //     takeStep();
-    //     break;
-    //   }
-    //   case "ArrowRight": {
-    //     userRol === ROLES.POLICE
-    //       ? setPolicePosition((prev) => ({
-    //           row: prev.row,
-    //           col: Math.min(prev.col + 1, COLS - 1),
-    //         }))
-    //       : userRol === ROLES.THIEF
-    //       ? setThiefPosition((prev) => ({
-    //           row: prev.row,
-    //           col: Math.min(prev.col + 1, COLS - 1),
-    //         }))
-    //       : null;
-
-    //     takeStep();
-    //     break;
-    //   }
-    // }
   };
 
   useEffect(() => {
@@ -138,6 +63,7 @@ export const Board = ({
   // Obtención de pasos para la IA
   useEffect(() => {
     if (turn === PLAYERS.PC) {
+      console.log("Es el turno de la PC y se lanzará el dado.");
       setTimeout(() => rollDie(), 500);
     }
   }, [turn]);
@@ -158,23 +84,11 @@ export const Board = ({
       }
 
       let stepCounter = steps;
-      let validMove;
 
       while (stepCounter > 0) {
-        console.log(stepCounter);
-        movePlayer(
-          turn,
-          "d",
-          pcPositionStatus,
-          takeStep,
-          setPolicePosition,
-          setThiefPosition
-        );
+        movePlayer(turn, "d", pcPositionStatus, takeStep, steps, passNextTurn);
 
-        // if ()
-      }
-
-      if (stepCounter === 0) {
+        stepCounter--;
       }
     }
   }, [turn, steps]);

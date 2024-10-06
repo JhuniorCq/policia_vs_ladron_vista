@@ -1,8 +1,18 @@
 import "./OptionButton.css";
 
-export const OptionButton = ({ text, eventHandler, className }) => {
+export const OptionButton = ({
+  text,
+  eventHandler,
+  className,
+  disabledButton,
+}) => {
   return (
-    <button className={className} onClick={eventHandler}>
+    <button
+      className={
+        disabledButton ? `${className} option-button--disabled` : className
+      }
+      onClick={eventHandler}
+    >
       {text}
     </button>
   );

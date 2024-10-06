@@ -55,3 +55,8 @@
 .rol__button-option:hover {
   scale: 1.1;
 }
+
+.option-button--disabled {
+  filter: blur(0.15rem);
+  cursor: no-drop;
+}

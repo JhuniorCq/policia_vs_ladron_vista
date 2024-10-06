@@ -3,7 +3,7 @@ import { Board } from "../../components/Board/Board";
 import { RollDie } from "../../components/RollDie/RollDie";
 import { GameData } from "../../components/GameData/GameData";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { COLS, PLAYERS, ROWS } from "../../utils/constants";
 
@@ -14,9 +14,11 @@ export const Game = () => {
     const turnsKey = Object.keys(PLAYERS);
     const randomTurnKey = turnsKey[Math.floor(Math.random() * turnsKey.length)];
     const randomTurn = PLAYERS[randomTurnKey];
-    defineStartTurn(randomTurn);
+    console.log("El turno inicial es de: ", randomTurn);
     return randomTurn;
   });
+
+  // const isFirstRender = useRef(true);
 
   const [policePosition, setPolicePosition] = useState({ row: 0, col: 0 });
   const [thiefPosition, setThiefPosition] = useState({
@@ -40,14 +42,6 @@ export const Game = () => {
     if (steps > 0) {
       setSteps(steps - 1);
     }
-
-    // if (steps - 1 === 0) {
-    //   const newTurn = turn === PLAYERS.USER ? PLAYERS.PC : PLAYERS.USER;
-    //   setTurn(newTurn);
-    //   setScore("-");
-
-    //   if (turn === PLAYERS.PC) setDisableRollDie(false);
-    // }
   };
 
   const passNextTurn = () => {
@@ -60,6 +54,9 @@ export const Game = () => {
 
   const reset = () => {
     const { startTurn } = gameSettings;
+    console.log("Voy a reiniciar, y el turno ahora será de: ", startTurn);
+    console.log("El turno actual es de: ", turn);
+    console.log("Los pasos actuales son: ", steps);
     setTurn(startTurn);
     setScore("-");
     setSteps(0);
@@ -70,6 +67,21 @@ export const Game = () => {
       col: COLS - 1,
     });
   };
+
+  useEffect(() => {
+    defineStartTurn(turn);
+  }, []);
+
+  // useEffect(() => {
+  //   if (steps === 0) {
+  //     if (isFirstRender.current) {
+  //       isFirstRender.current = false;
+  //       return;
+  //     }
+  //   }
+
+  //   passNextTurn();
+  // }, [steps]);
 
   return (
     <div className="game">
@@ -84,7 +96,6 @@ export const Game = () => {
         rollDie={rollDie}
         passNextTurn={passNextTurn}
       />
-      {console.log("gwgweg", steps)}
       <div className="game__options">
         <GameData
           difficulty={gameSettings.difficulty}
