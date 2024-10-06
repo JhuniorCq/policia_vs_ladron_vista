@@ -2,11 +2,14 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
-  align-items: center;
-  border: 1px solid red;
+  align-items: flex-end;
+  padding: 12vh;
   gap: 20px;
+  background-image: url(../../assets/image/home-background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .home > * {

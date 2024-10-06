@@ -1,0 +1,54 @@
+.difficulty {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.difficulty__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 3px solid var(--ruby-red);
+  border-radius: 12px;
+  background-color: white;
+  width: 38%;
+  height: 290px;
+}
+
+.difficulty__light-image {
+  width: 80%;
+  position: absolute;
+  left: -350px;
+  bottom: -100px;
+}
+
+.difficulty__police-image {
+  width: 50%;
+  position: absolute;
+  left: -215px;
+}
+
+.difficulty__text-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.difficulty__title {
+  font-weight: normal;
+  font-size: 3rem;
+  text-shadow: 3px 0 0 var(--cherry-red-shadow);
+}
+
+.difficulty__options {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+}

@@ -1,3 +1,23 @@
+/* START BUTTON */
+.home__start-button {
+  border: 3px solid var(--cherry-red);
+  color: var(--ruby-red);
+  background-color: var(--canary-yellow);
+  width: 420px;
+  height: 80px;
+  text-align: center;
+  align-content: center;
+  font-size: 3rem;
+  border-radius: 40px;
+  text-shadow: 2px 0 0 black;
+  cursor: pointer;
+  transition: scale 0.3s ease-in-out;
+}
+
+.home__start-button:hover {
+  scale: 1.1;
+}
+
 /* RESET BUTTON */
 .game__reset-button {
   background-color: var(--canary-yellow);
@@ -15,5 +35,21 @@
 }
 
 .game__reset-button:hover {
+  scale: 1.1;
+}
+
+/* DIFFICULTY BUTTONS / ROL BUTTONS */
+.difficulty__button-option,
+.rol__button-option {
+  background-color: transparent;
+  border: transparent;
+  font-size: 2.3rem;
+  text-shadow: 3px 0 0 var(--canary-yellow-shadow);
+  cursor: pointer;
+  transition: scale 0.3s ease-in-out;
+}
+
+.difficulty__button-option:hover,
+.rol__button-option:hover {
   scale: 1.1;
 }

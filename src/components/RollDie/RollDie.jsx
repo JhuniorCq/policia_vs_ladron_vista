@@ -12,7 +12,7 @@ export const RollDie = () => {
 
   return (
     <div className="roll-die">
-      <p>NÚMERO DE PASOS OBTENIDOS: </p>
+      <p className="roll-die__text">NÚMERO DE PASOS OBTENIDOS: </p>
       <p className="roll-die__steps">{steps}</p>
       <button className="roll-die__button" onClick={rollDie}>
         <p>LANZAR DADO</p>
