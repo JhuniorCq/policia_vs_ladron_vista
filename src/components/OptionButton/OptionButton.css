@@ -47,6 +47,8 @@
   text-shadow: 3px 0 0 var(--canary-yellow-shadow);
   cursor: pointer;
   transition: scale 0.3s ease-in-out;
+  position: relative;
+  z-index: 10;
 }
 
 .difficulty__button-option:hover,

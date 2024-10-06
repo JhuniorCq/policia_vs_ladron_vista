@@ -6,15 +6,7 @@ import { Square } from "../Square/Square";
 import policeImage from "../../assets/image/police.png";
 import thiefImage from "../../assets/image/thief.png";
 
-export const Board = () => {
-  const [turn, setTurn] = useState(() => {
-    // Definimos el turno inicial
-    const turnsKey = Object.keys(PLAYERS);
-    const randomTurnKey = turnsKey[Math.floor(Math.random() * turnsKey.length)];
-    const randomTurn = PLAYERS[randomTurnKey];
-    console.log(`Turno Inicial: ${randomTurn}`);
-    return randomTurn;
-  });
+export const Board = ({ turn }) => {
   const { gameSettings } = useContext(GameSettingsContext);
   console.log(gameSettings);
 
@@ -94,13 +86,15 @@ export const Board = () => {
   };
 
   useEffect(() => {
-    // Evento para capturar las teclas
-    window.addEventListener("keydown", handleKeyPress);
+    if (turn === PLAYERS.USER) {
+      // Evento para capturar las teclas
+      window.addEventListener("keydown", handleKeyPress);
 
-    // Limpiar el Event Listener cuando el componente se desmonta
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
+      // Limpiar el Event Listener cuando el componente se desmonta
+      return () => {
+        window.removeEventListener("keydown", handleKeyPress);
+      };
+    }
   }, []);
 
   return (

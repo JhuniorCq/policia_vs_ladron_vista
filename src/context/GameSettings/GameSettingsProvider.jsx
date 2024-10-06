@@ -16,10 +16,6 @@ export const GameSettingsProvider = ({ children }) => {
     },
   });
 
-  // const chooseGameMode = (gameMode) => {
-  //   setGameSettings({ ...gameSettings, gameMode });
-  // };
-
   const chooseDifficulty = (difficulty) => {
     setGameSettings({ ...gameSettings, difficulty });
   };
