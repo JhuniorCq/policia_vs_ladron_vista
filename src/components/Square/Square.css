@@ -2,6 +2,24 @@
   /* De ahi lo cambio a 20 y 25 */
   width: calc(100% / 20);
   height: calc(100% / 25);
-  background-color: rgb(34, 228, 34);
-  border: 1px solid black;
+  background: var(--gradient-yellow-orange);
+  border: 1px solid var(--cherry-red);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* border: 1px solid green; */
 }
+
+.square-image {
+  height: 150%;
+  position: absolute;
+  bottom: 0;
+}
+
+/* .square--last-column {
+} */
+
+/* .square:not(.square:last-child) {
+  border-bottom: 1px solid black;
+} */

@@ -1,0 +1,21 @@
+.game {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
+  padding: 20px 100px;
+}
+
+.game__options {
+  /* border: 1px solid red; */
+  width: 37%;
+  min-height: 500px;
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}

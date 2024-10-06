@@ -1,0 +1,9 @@
+.board {
+  box-sizing: content-box;
+  width: 800px;
+  height: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 3px solid var(--ruby-red);
+  /* justify-content: center; */
+}

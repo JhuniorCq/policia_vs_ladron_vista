@@ -1,7 +1,27 @@
+:root {
+  --font-family: "Bangers", system-ui;
+  --soft-red: #f44336;
+  --light-yellow: #ffde59;
+  --soft-orange: #ff964e;
+  --cherry-red: #fe0336;
+  --canary-yellow: #fac93d;
+  --ruby-red: #f44336;
+  --gradient-yellow-orange: linear-gradient(to right, #ffde59, #ff964e);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+body {
+  width: 100%;
+  min-width: 100vh;
+  background-image: url(./assets/image/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 a {

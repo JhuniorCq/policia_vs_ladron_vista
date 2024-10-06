@@ -8,9 +8,9 @@ import { GameSettingsProvider } from "./context/GameSettings/GameSettingsProvide
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <GameSettingsProvider>
-      <StrictMode>
-        <App />
-      </StrictMode>
+      {/* <StrictMode> */}
+      <App />
+      {/* </StrictMode> */}
     </GameSettingsProvider>
   </BrowserRouter>
 );

@@ -1,11 +1,20 @@
-import { useContext, useEffect, useState } from "react";
 import "./Board.css";
-import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
+import { useContext, useEffect, useState } from "react";
 import { COLS, PLAYERS, ROLES, ROWS } from "../../utils/constants";
-import { Square } from "../../components/Square/Square";
+import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
+import { Square } from "../Square/Square";
+import policeImage from "../../assets/image/police.png";
+import thiefImage from "../../assets/image/thief.png";
 
 export const Board = () => {
-  const [turn, setTurn] = useState(null);
+  const [turn, setTurn] = useState(() => {
+    // Definimos el turno inicial
+    const turnsKey = Object.keys(PLAYERS);
+    const randomTurnKey = turnsKey[Math.floor(Math.random() * turnsKey.length)];
+    const randomTurn = PLAYERS[randomTurnKey];
+    console.log(`Turno Inicial: ${randomTurn}`);
+    return randomTurn;
+  });
   const { gameSettings } = useContext(GameSettingsContext);
   console.log(gameSettings);
 
@@ -18,9 +27,10 @@ export const Board = () => {
 
   // Función para actualizar la posición del usuario
   const handleKeyPress = (event) => {
+    console.log(turn);
+    // if (turn !== PLAYERS.USER) return;
+
     const userRol = gameSettings.players.player1.rol;
-    const userPosition =
-      userRol === ROLES.POLICE ? policePosition : thiefPosition;
 
     console.log(event);
     switch (event.key) {
@@ -30,10 +40,12 @@ export const Board = () => {
               row: Math.max(prev.row - 1, 0),
               col: prev.col,
             }))
-          : setThiefPosition((prev) => ({
+          : userRol === ROLES.THIEF
+          ? setThiefPosition((prev) => ({
               row: Math.max(prev.row - 1, 0),
               col: prev.col,
-            }));
+            }))
+          : null;
         break;
       }
       case "ArrowDown": {
@@ -42,10 +54,12 @@ export const Board = () => {
               row: Math.min(prev.row + 1, ROWS - 1),
               col: prev.col,
             }))
-          : setThiefPosition((prev) => ({
+          : userRol === ROLES.THIEF
+          ? setThiefPosition((prev) => ({
               row: Math.min(prev.row + 1, ROWS - 1),
               col: prev.col,
-            }));
+            }))
+          : null;
         break;
       }
       case "ArrowLeft": {
@@ -54,10 +68,12 @@ export const Board = () => {
               row: prev.row,
               col: Math.max(prev.col - 1, 0),
             }))
-          : setThiefPosition((prev) => ({
+          : userRol === ROLES.THIEF
+          ? setThiefPosition((prev) => ({
               row: prev.row,
               col: Math.max(prev.col - 1, 0),
-            }));
+            }))
+          : null;
         break;
       }
       case "ArrowRight": {
@@ -66,23 +82,18 @@ export const Board = () => {
               row: prev.row,
               col: Math.min(prev.col + 1, COLS - 1),
             }))
-          : setThiefPosition((prev) => ({
+          : userRol === ROLES.THIEF
+          ? setThiefPosition((prev) => ({
               row: prev.row,
               col: Math.min(prev.col + 1, COLS - 1),
-            }));
+            }))
+          : null;
         break;
       }
     }
   };
 
   useEffect(() => {
-    // Definimos el turno inicial
-    const turnsKey = Object.keys(PLAYERS);
-    const randomTurnKey = turnsKey[Math.floor(Math.random() * turnsKey.length)];
-    const randomTurn = PLAYERS[randomTurnKey];
-    console.log(`El TURNO INICIAL es para: ${randomTurn}`);
-    setTurn(randomTurn);
-
     // Evento para capturar las teclas
     window.addEventListener("keydown", handleKeyPress);
 
@@ -106,9 +117,10 @@ export const Board = () => {
                 thiefPosition.row === i && thiefPosition.col === j;
 
               return (
-                <Square key={`${i}-${j}`}>
-                  {isPolice ? "P" : isThief ? "L" : ""}
-                </Square>
+                <Square
+                  key={`${i}-${j}`}
+                  image={isPolice ? policeImage : isThief ? thiefImage : null}
+                />
               );
             })
         )}

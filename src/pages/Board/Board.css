@@ -1,9 +1,0 @@
-.board {
-  width: 800px;
-  height: 900px;
-  background-color: red;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  /* align-items: center; */
-}
