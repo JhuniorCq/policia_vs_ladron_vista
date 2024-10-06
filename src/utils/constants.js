@@ -17,12 +17,21 @@ export const ROLES = {
   THIEF: "Ladrón",
 };
 
-// export const TURNS = {
-//   POLICE: "Policía",
-//   THIEF: "Ladrón",
-// };
-
 export const PLAYERS = {
   USER: "Usuario",
   PC: "IA",
+};
+
+export const USER_MOVES = {
+  UP: "ArrowUp",
+  DOWN: "ArrowDown",
+  LEFT: "ArrowLeft",
+  RIGHT: "ArrowRight",
+};
+
+export const PC_MOVES = {
+  UP: "w",
+  DOWN: "s",
+  LEFT: "a",
+  RIGHT: "d",
 };

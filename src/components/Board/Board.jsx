@@ -5,6 +5,7 @@ import { GameSettingsContext } from "../../context/GameSettings/GameSettingsCont
 import { Square } from "../Square/Square";
 import policeImage from "../../assets/image/police.png";
 import thiefImage from "../../assets/image/thief.png";
+import { movePlayer } from "../../utils/movePlayer";
 
 export const Board = ({
   turn,
@@ -14,93 +15,112 @@ export const Board = ({
   setPolicePosition,
   thiefPosition,
   setThiefPosition,
+  rollDie,
+  passNextTurn,
 }) => {
   console.log("Estoy en Board.jsx y mis steps son: ", steps);
   const { gameSettings } = useContext(GameSettingsContext);
   console.log(gameSettings);
 
-  // Estado para las posiciones de los jugadores
-  // const [policePosition, setPolicePosition] = useState({ row: 0, col: 0 });
-  // const [thiefPosition, setThiefPosition] = useState({
-  //   row: ROWS - 1,
-  //   col: COLS - 1,
-  // });
-
   // Función para actualizar la posición del usuario
   const handleKeyPress = (event) => {
-    console.log(turn);
-    console.log(steps);
     if (steps === 0) return;
 
     const userRol = gameSettings.players.player1.rol;
+    // const userPosition =
+    //   userRol === ROLES.POLICE ? policePosition : thiefPosition;
+
+    // const userSetPosition =
+
+    let userPositionStatus = [];
+
+    if (userRol === ROLES.POLICE) {
+      userPositionStatus.push(policePosition);
+      userPositionStatus.push(setPolicePosition);
+    } else {
+      userPositionStatus.push(thiefPosition);
+      userPositionStatus.push(setThiefPosition);
+    }
 
     console.log(event);
-    switch (event.key) {
-      case "ArrowUp": {
-        userRol === ROLES.POLICE
-          ? setPolicePosition((prev) => ({
-              row: Math.max(prev.row - 1, 0),
-              col: prev.col,
-            }))
-          : userRol === ROLES.THIEF
-          ? setThiefPosition((prev) => ({
-              row: Math.max(prev.row - 1, 0),
-              col: prev.col,
-            }))
-          : null;
+    const validMove = movePlayer(
+      turn,
+      event.key,
+      userPositionStatus,
+      takeStep,
+      setPolicePosition,
+      setThiefPosition
+    );
 
-        takeStep();
-        break;
-      }
-      case "ArrowDown": {
-        userRol === ROLES.POLICE
-          ? setPolicePosition((prev) => ({
-              row: Math.min(prev.row + 1, ROWS - 1),
-              col: prev.col,
-            }))
-          : userRol === ROLES.THIEF
-          ? setThiefPosition((prev) => ({
-              row: Math.min(prev.row + 1, ROWS - 1),
-              col: prev.col,
-            }))
-          : null;
-
-        takeStep();
-        break;
-      }
-      case "ArrowLeft": {
-        userRol === ROLES.POLICE
-          ? setPolicePosition((prev) => ({
-              row: prev.row,
-              col: Math.max(prev.col - 1, 0),
-            }))
-          : userRol === ROLES.THIEF
-          ? setThiefPosition((prev) => ({
-              row: prev.row,
-              col: Math.max(prev.col - 1, 0),
-            }))
-          : null;
-
-        takeStep();
-        break;
-      }
-      case "ArrowRight": {
-        userRol === ROLES.POLICE
-          ? setPolicePosition((prev) => ({
-              row: prev.row,
-              col: Math.min(prev.col + 1, COLS - 1),
-            }))
-          : userRol === ROLES.THIEF
-          ? setThiefPosition((prev) => ({
-              row: prev.row,
-              col: Math.min(prev.col + 1, COLS - 1),
-            }))
-          : null;
-
-        takeStep();
-        break;
-      }
+    if (steps - 1 === 0 && validMove) {
+      passNextTurn();
     }
+    // switch (event.key) {
+    //   case "ArrowUp": {
+    //     userRol === ROLES.POLICE
+    //       ? setPolicePosition((prev) => ({
+    //           row: Math.max(prev.row - 1, 0),
+    //           col: prev.col,
+    //         }))
+    //       : userRol === ROLES.THIEF
+    //       ? setThiefPosition((prev) => ({
+    //           row: Math.max(prev.row - 1, 0),
+    //           col: prev.col,
+    //         }))
+    //       : null;
+
+    //     takeStep();
+    //     break;
+    //   }
+    //   case "ArrowDown": {
+    //     userRol === ROLES.POLICE
+    //       ? setPolicePosition((prev) => ({
+    //           row: Math.min(prev.row + 1, ROWS - 1),
+    //           col: prev.col,
+    //         }))
+    //       : userRol === ROLES.THIEF
+    //       ? setThiefPosition((prev) => ({
+    //           row: Math.min(prev.row + 1, ROWS - 1),
+    //           col: prev.col,
+    //         }))
+    //       : null;
+
+    //     takeStep();
+    //     break;
+    //   }
+    //   case "ArrowLeft": {
+    //     userRol === ROLES.POLICE
+    //       ? setPolicePosition((prev) => ({
+    //           row: prev.row,
+    //           col: Math.max(prev.col - 1, 0),
+    //         }))
+    //       : userRol === ROLES.THIEF
+    //       ? setThiefPosition((prev) => ({
+    //           row: prev.row,
+    //           col: Math.max(prev.col - 1, 0),
+    //         }))
+    //       : null;
+
+    //     takeStep();
+    //     break;
+    //   }
+    //   case "ArrowRight": {
+    //     userRol === ROLES.POLICE
+    //       ? setPolicePosition((prev) => ({
+    //           row: prev.row,
+    //           col: Math.min(prev.col + 1, COLS - 1),
+    //         }))
+    //       : userRol === ROLES.THIEF
+    //       ? setThiefPosition((prev) => ({
+    //           row: prev.row,
+    //           col: Math.min(prev.col + 1, COLS - 1),
+    //         }))
+    //       : null;
+
+    //     takeStep();
+    //     break;
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -113,7 +133,51 @@ export const Board = ({
         window.removeEventListener("keydown", handleKeyPress);
       };
     }
-  }, [steps]);
+  }, [steps, turn]);
+
+  // Obtención de pasos para la IA
+  useEffect(() => {
+    if (turn === PLAYERS.PC) {
+      setTimeout(() => rollDie(), 500);
+    }
+  }, [turn]);
+
+  // Movimientos de la IA
+  useEffect(() => {
+    if (turn === PLAYERS.PC && steps > 0) {
+      const pcRol = gameSettings.players.player2.rol;
+
+      let pcPositionStatus = [];
+
+      if (pcRol === ROLES.POLICE) {
+        pcPositionStatus.push(policePosition);
+        pcPositionStatus.push(setPolicePosition);
+      } else {
+        pcPositionStatus.push(thiefPosition);
+        pcPositionStatus.push(setThiefPosition);
+      }
+
+      let stepCounter = steps;
+      let validMove;
+
+      while (stepCounter > 0) {
+        console.log(stepCounter);
+        movePlayer(
+          turn,
+          "d",
+          pcPositionStatus,
+          takeStep,
+          setPolicePosition,
+          setThiefPosition
+        );
+
+        // if ()
+      }
+
+      if (stepCounter === 0) {
+      }
+    }
+  }, [turn, steps]);
 
   return (
     <div className="board">

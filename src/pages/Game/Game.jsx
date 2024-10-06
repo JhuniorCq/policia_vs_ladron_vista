@@ -27,10 +27,13 @@ export const Game = () => {
   const [score, setScore] = useState("-");
   const [steps, setSteps] = useState(0);
 
+  const [disabledRollDie, setDisableRollDie] = useState(false);
+
   const rollDie = () => {
     const result = Math.floor(Math.random() * 6) + 1;
     setScore(result);
     setSteps(result);
+    setDisableRollDie(true);
   };
 
   const takeStep = () => {
@@ -38,11 +41,21 @@ export const Game = () => {
       setSteps(steps - 1);
     }
 
-    if (steps - 1 === 0) {
-      const newTurn = turn === PLAYERS.USER ? PLAYERS.PC : PLAYERS.USER;
-      setTurn(newTurn);
-      setScore("-");
-    }
+    // if (steps - 1 === 0) {
+    //   const newTurn = turn === PLAYERS.USER ? PLAYERS.PC : PLAYERS.USER;
+    //   setTurn(newTurn);
+    //   setScore("-");
+
+    //   if (turn === PLAYERS.PC) setDisableRollDie(false);
+    // }
+  };
+
+  const passNextTurn = () => {
+    const newTurn = turn === PLAYERS.USER ? PLAYERS.PC : PLAYERS.USER;
+    setTurn(newTurn);
+    setScore("-");
+
+    if (turn === PLAYERS.PC) setDisableRollDie(false);
   };
 
   const reset = () => {
@@ -50,6 +63,7 @@ export const Game = () => {
     setTurn(startTurn);
     setScore("-");
     setSteps(0);
+    setDisableRollDie(false);
     setPolicePosition({ row: 0, col: 0 });
     setThiefPosition({
       row: ROWS - 1,
@@ -67,16 +81,26 @@ export const Game = () => {
         setPolicePosition={setPolicePosition}
         thiefPosition={thiefPosition}
         setThiefPosition={setThiefPosition}
+        rollDie={rollDie}
+        passNextTurn={passNextTurn}
       />
       {console.log("gwgweg", steps)}
       <div className="game__options">
         <GameData
           difficulty={gameSettings.difficulty}
-          rol={gameSettings.players.player1.rol}
+          rol={
+            turn === PLAYERS.USER
+              ? gameSettings.players.player1.rol
+              : gameSettings.players.player2.rol
+          }
           turn={turn}
           steps={steps}
         />
-        <RollDie score={score} rollDie={rollDie} />
+        <RollDie
+          score={score}
+          rollDie={rollDie}
+          disabledRollDie={disabledRollDie}
+        />
         <OptionButton
           className="game__reset-button"
           text="REINICIAR"
