@@ -1,11 +1,12 @@
 .game-data {
-  width: 80%;
+  width: 85%;
   /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 25px;
+  padding: 0 20px;
 }
 
 .game-data__data-box {
@@ -14,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2.2rem;
+  gap: 25px;
 }
 
 .game-data__data {
@@ -39,4 +41,15 @@
 
 .game-data__steps {
   margin-right: 15px;
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .game-data {
+    width: 100%;
+    padding: 0;
+  }
+
+  .game-data__data-box {
+    font-size: 2rem;
+  }
 }
