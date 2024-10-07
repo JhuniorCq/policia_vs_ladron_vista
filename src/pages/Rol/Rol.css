@@ -1,9 +1,10 @@
 .rol {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .rol__content {
@@ -14,8 +15,9 @@
   border: 3px solid var(--ruby-red);
   border-radius: 12px;
   background-color: white;
-  width: 38%;
+  width: 690px;
   height: 290px;
+  padding: 0 30px;
 }
 
 .rol__light-image {
@@ -39,6 +41,7 @@
   justify-content: center;
   align-items: center;
   gap: 40px;
+  text-align: center;
 }
 
 .rol__title {
@@ -52,4 +55,62 @@
   display: flex;
   gap: 180px;
   justify-content: center;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .rol__content {
+    width: 530px;
+    height: 270px;
+  }
+
+  .rol__light-image {
+    width: 80%;
+    position: absolute;
+    right: -200px;
+    bottom: -35px;
+  }
+
+  .rol__thief-image {
+    width: 50%;
+    position: absolute;
+    right: -145px;
+    bottom: -50px;
+  }
+
+  .rol__title {
+    font-size: 2.7rem;
+  }
+
+  .rol__options {
+    gap: 130px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+  .rol__content {
+    width: 530px;
+    height: 270px;
+  }
+
+  .rol__light-image {
+    width: 80%;
+    position: absolute;
+    right: -200px;
+    bottom: -35px;
+  }
+
+  .rol__thief-image {
+    width: 50%;
+    position: absolute;
+    right: -145px;
+    bottom: -50px;
+  }
+
+  .rol__title {
+    font-size: 2.7rem;
+  }
+
+  .rol__options {
+    gap: 130px;
+  }
 }

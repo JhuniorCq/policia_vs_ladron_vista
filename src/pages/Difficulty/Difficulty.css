@@ -1,9 +1,10 @@
 .difficulty {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .difficulty__content {
@@ -14,8 +15,9 @@
   border: 3px solid var(--ruby-red);
   border-radius: 12px;
   background-color: white;
-  width: 38%;
+  width: 690px;
   height: 290px;
+  padding: 0 30px;
 }
 
 .difficulty__light-image {
@@ -38,6 +40,7 @@
   justify-content: center;
   align-items: center;
   gap: 40px;
+  text-align: center;
 }
 
 .difficulty__title {
@@ -51,4 +54,66 @@
   display: flex;
   justify-content: center;
   gap: 70px;
+}
+
+@media (min-width: 1450px) and (max-width: 1599px) {
+}
+
+@media (min-width: 1200px) and (max-width: 1449px) {
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .difficulty__content {
+    width: 530px;
+    height: 270px;
+  }
+
+  .difficulty__light-image {
+    width: 80%;
+    position: absolute;
+    left: -260px;
+    bottom: -40px;
+  }
+
+  .difficulty__police-image {
+    width: 50%;
+    position: absolute;
+    left: -165px;
+  }
+
+  .difficulty__title {
+    font-size: 2.7rem;
+  }
+
+  .difficulty__options {
+    gap: 60px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+  .difficulty__content {
+    width: 530px;
+    height: 270px;
+  }
+
+  .difficulty__light-image {
+    width: 80%;
+    position: absolute;
+    left: -260px;
+    bottom: -40px;
+  }
+
+  .difficulty__police-image {
+    width: 50%;
+    position: absolute;
+    left: -165px;
+  }
+
+  .difficulty__title {
+    font-size: 2.7rem;
+  }
+
+  .difficulty__options {
+    gap: 60px;
+  }
 }

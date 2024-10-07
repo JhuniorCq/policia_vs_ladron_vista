@@ -2,9 +2,9 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 120px;
+  gap: 80px;
   padding: 20px 100px;
 }
 
@@ -17,4 +17,22 @@
   justify-content: center;
   align-items: center;
   gap: 50px;
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .game {
+    justify-content: space-around;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .game {
+    padding: 20px 70px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+  .game {
+    padding: 20px 70px;
+  }
 }

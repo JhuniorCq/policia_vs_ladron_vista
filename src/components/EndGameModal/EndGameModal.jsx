@@ -16,7 +16,7 @@ export const EndGameModal = ({ winner, endGame }) => {
   return (
     <div className={endGame ? "end-game end-game--active" : "end-game"}>
       <div className="end-game__content">
-        <img className="end-game__police-image" src={image} alt={winner} />
+        <img className="end-game__winner-image" src={image} alt={winner} />
         <img className="end-game__light-image" src={lightImage} alt="Luz" />
         <div className="end-game__text">
           <div

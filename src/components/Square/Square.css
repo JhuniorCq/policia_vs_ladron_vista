@@ -1,6 +1,8 @@
 .square {
   width: calc(100% / 20);
   height: calc(100% / 25);
+  min-width: 5%;
+  min-height: 4%;
   background: var(--gradient-yellow-orange);
   border: 1px solid var(--cherry-red);
   display: flex;

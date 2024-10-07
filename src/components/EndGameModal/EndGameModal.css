@@ -23,7 +23,7 @@
   align-items: center;
 }
 
-.end-game__police-image {
+.end-game__winner-image {
   width: 46%;
 }
 
@@ -75,4 +75,52 @@
 
 .end-game__button:hover {
   scale: 1.1;
+}
+
+@media (min-width: 1450px) and (max-width: 1599px) {
+  .end-game__winner-image {
+    width: 50%;
+  }
+
+  .end-game__light-image {
+    width: 97%;
+    right: -26%;
+    bottom: -6%;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1449px) {
+  .end-game__winner-image {
+    width: 53%;
+  }
+
+  .end-game__light-image {
+    width: 100%;
+    right: -30%;
+    bottom: -6%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .end-game__winner-image {
+    width: 60%;
+  }
+
+  .end-game__light-image {
+    width: 140%;
+    right: -53%;
+    bottom: -20%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+  .end-game__winner-image {
+    width: 70%;
+  }
+
+  .end-game__light-image {
+    width: 155%;
+    right: -67%;
+    bottom: -16%;
+  }
 }

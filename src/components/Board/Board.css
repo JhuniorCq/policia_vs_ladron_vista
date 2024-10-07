@@ -1,8 +1,32 @@
 .board {
-  box-sizing: content-box;
-  width: 800px;
-  height: 900px;
+  /* box-sizing: content-box; */
+  width: 750px;
+  height: 850px;
   display: flex;
   flex-wrap: wrap;
   border: 3px solid var(--ruby-red);
+}
+
+/* @media (min-width: 1450px) and (max-width: 1599px) {
+} */
+
+@media (min-width: 1200px) and (max-width: 1449px) {
+  .board {
+    width: 650px;
+    height: 750px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .board {
+    width: 700px;
+    height: 720px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+  .board {
+    width: 700px;
+    height: 720px;
+  }
 }
