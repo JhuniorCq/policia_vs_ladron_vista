@@ -6,9 +6,11 @@ import { OptionButton } from "../../components/OptionButton/OptionButton";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { COLS, PLAYERS, ROWS } from "../../utils/constants";
+import { generateHousePositions } from "../../utils/generateHousePositions";
 
 export const Game = () => {
-  const { gameSettings, defineStartTurn } = useContext(GameSettingsContext);
+  const { gameSettings, defineStartTurn, defineHousePositions } =
+    useContext(GameSettingsContext);
   const [turn, setTurn] = useState(() => {
     // Definimos el turno inicial
     const turnsKey = Object.keys(PLAYERS);
@@ -69,6 +71,7 @@ export const Game = () => {
   };
 
   useEffect(() => {
+    defineHousePositions(generateHousePositions());
     defineStartTurn(turn);
   }, []);
 

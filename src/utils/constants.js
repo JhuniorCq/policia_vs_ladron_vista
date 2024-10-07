@@ -35,3 +35,5 @@ export const PC_MOVES = {
   LEFT: "a",
   RIGHT: "d",
 };
+
+export const NUMBER_HOUSES = 7;

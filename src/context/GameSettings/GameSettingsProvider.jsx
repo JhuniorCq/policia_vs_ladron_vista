@@ -7,6 +7,7 @@ export const GameSettingsProvider = ({ children }) => {
     gameMode: "Humano vs PC",
     difficulty: "",
     startTurn: "",
+    housePositions: [],
     players: {
       player1: {
         rol: "",
@@ -18,7 +19,10 @@ export const GameSettingsProvider = ({ children }) => {
   });
 
   const chooseDifficulty = (difficulty) => {
-    setGameSettings({ ...gameSettings, difficulty });
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      difficulty,
+    }));
   };
 
   const chooseRol = (rol) => {
@@ -32,16 +36,38 @@ export const GameSettingsProvider = ({ children }) => {
         rol: rolComputer,
       },
     };
-    setGameSettings({ ...gameSettings, players });
+
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      players,
+    }));
   };
 
   const defineStartTurn = (startTurn) => {
-    setGameSettings({ ...gameSettings, startTurn });
+    console.log("Estamos definiendo el turno inicial: ", startTurn);
+
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      startTurn,
+    }));
+  };
+
+  const defineHousePositions = (housePositions) => {
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      housePositions,
+    }));
   };
 
   return (
     <GameSettingsContext.Provider
-      value={{ gameSettings, chooseDifficulty, chooseRol, defineStartTurn }}
+      value={{
+        gameSettings,
+        chooseDifficulty,
+        chooseRol,
+        defineStartTurn,
+        defineHousePositions,
+      }}
     >
       {children}
     </GameSettingsContext.Provider>

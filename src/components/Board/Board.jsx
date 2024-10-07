@@ -1,10 +1,11 @@
 import "./Board.css";
 import { useContext, useEffect } from "react";
-import { COLS, PLAYERS, ROLES, ROWS } from "../../utils/constants";
+import { PLAYERS, ROLES } from "../../utils/constants";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { Square } from "../Square/Square";
 import policeImage from "../../assets/image/police.png";
 import thiefImage from "../../assets/image/thief.png";
+import houseImage from "../../assets/image/house.png";
 import { movePlayer } from "../../utils/movePlayer";
 
 export const Board = ({
@@ -19,13 +20,15 @@ export const Board = ({
   passNextTurn,
 }) => {
   const { gameSettings } = useContext(GameSettingsContext);
+  const userRol = gameSettings.players.player1.rol;
+  const pcRol = gameSettings.players.player2.rol;
+  const housePositions = gameSettings.housePositions;
+
   console.log(gameSettings);
 
   // Función para actualizar la posición del usuario
   const handleKeyPress = (event) => {
     if (steps === 0) return;
-
-    const userRol = gameSettings.players.player1.rol;
 
     let userPositionStatus = [];
 
@@ -71,8 +74,6 @@ export const Board = ({
   // Movimientos de la IA
   useEffect(() => {
     if (turn === PLAYERS.PC && steps > 0) {
-      const pcRol = gameSettings.players.player2.rol;
-
       let pcPositionStatus = [];
 
       if (pcRol === ROLES.POLICE) {
@@ -119,17 +120,27 @@ export const Board = ({
           Array(20)
             .fill(null)
             .map((_, j) => {
-              const isPolice =
-                policePosition.row === i && policePosition.col === j;
-              const isThief =
-                thiefPosition.row === i && thiefPosition.col === j;
+              // const isPolice =
+              //   policePosition.row === i && policePosition.col === j;
+              // const isThief =
+              //   thiefPosition.row === i && thiefPosition.col === j;
 
-              return (
-                <Square
-                  key={`${i}-${j}`}
-                  image={isPolice ? policeImage : isThief ? thiefImage : null}
-                />
-              );
+              let image;
+
+              if (policePosition.row === i && policePosition.col === j) {
+                image = policeImage;
+              } else if (thiefPosition.row === i && thiefPosition.col === j) {
+                image = thiefImage;
+              } else if (
+                housePositions.some(
+                  (housePosition) =>
+                    housePosition.row === i && housePosition.col === j
+                )
+              ) {
+                image = houseImage;
+              }
+
+              return <Square key={`${i}-${j}`} image={image} />;
             })
         )}
     </div>
