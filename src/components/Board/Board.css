@@ -5,5 +5,4 @@
   display: flex;
   flex-wrap: wrap;
   border: 3px solid var(--ruby-red);
-  /* justify-content: center; */
 }

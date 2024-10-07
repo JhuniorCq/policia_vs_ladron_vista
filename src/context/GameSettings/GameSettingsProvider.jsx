@@ -8,8 +8,6 @@ export const GameSettingsProvider = ({ children }) => {
     difficulty: "",
     startTurn: "",
     housePositions: [],
-    // housePositionsRobbed: [],
-    // gameEnded: false,
     winner: "",
     players: {
       player1: {
@@ -62,20 +60,6 @@ export const GameSettingsProvider = ({ children }) => {
     }));
   };
 
-  // const endGame = (gameEnded) => {
-  //   setGameSettings((prevSettings) => ({
-  //     ...prevSettings,
-  //     gameEnded,
-  //   }));
-  // };
-
-  // const addRobbedHouse = (robbedHouse) => {
-  //   setGameSettings((prevSettings) => ({
-  //     ...prevSettings,
-  //     housePositionsRobbed: [...prevSettings.housePositionsRobbed, robbedHouse],
-  //   }));
-  // };
-
   const resetRobbedHouses = () => {
     setGameSettings((prevSettings) => ({
       ...prevSettings,
@@ -98,8 +82,6 @@ export const GameSettingsProvider = ({ children }) => {
         chooseRol,
         defineStartTurn,
         defineHousePositions,
-        // endGame,
-        // addRobbedHouse,
         resetRobbedHouses,
         setWinner,
       }}

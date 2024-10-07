@@ -9,12 +9,10 @@ import lightImage from "../../assets/image/light.png";
 import { BackButton } from "../../components/BackButton/BackButton";
 
 export const Difficulty = () => {
-  const [isExistsDifficulty, setIsExistsDifficulty] = useState(false);
   const { chooseDifficulty } = useContext(GameSettingsContext);
   const navigate = useNavigate();
 
   const setDifficulty = (difficulty) => {
-    // setIsExistsDifficulty(true);
     chooseDifficulty(difficulty);
     navigate("/game/rol");
   };

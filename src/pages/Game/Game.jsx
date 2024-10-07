@@ -21,9 +21,7 @@ export const Game = () => {
     gameSettings,
     defineStartTurn,
     defineHousePositions,
-    // addRobbedHouse,
     resetRobbedHouses,
-    // endGame,
     setWinner,
   } = useContext(GameSettingsContext);
 
@@ -124,7 +122,6 @@ export const Game = () => {
       ) {
         setEndGame(true);
         setWinner(ROLES.POLICE);
-        // alert("Ganó el Policía");
       }
     }
   }, [policePosition]);
@@ -132,14 +129,10 @@ export const Game = () => {
   // Victoria del Ladrón
   useEffect(() => {
     if (steps === 0) {
-      // const { housePositionsRobbed } = gameSettings;
-      console.log("CASAS ROBADAS: ", housePositionsRobbed);
-      console.log("CANTIDAD CASAS ROBADASA: ", housePositionsRobbed.length);
       if (housePositionsRobbed.length === NUMBER_HOUSES) {
         console.log("COMÍ TODAS LAS CASAS");
         setEndGame(true);
         setWinner(ROLES.THIEF);
-        // alert("Ganó el Ladrón");
       }
     }
   }, [housePositionsRobbed]);

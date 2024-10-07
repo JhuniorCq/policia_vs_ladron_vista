@@ -17,7 +17,6 @@
 
 .end-game__content {
   width: 50%;
-  /* border: 1px solid red; */
   position: relative;
   display: flex;
   justify-content: center;
@@ -26,7 +25,6 @@
 
 .end-game__police-image {
   width: 46%;
-  /* position: absolute; */
 }
 
 .end-game__light-image {
@@ -37,7 +35,6 @@
 }
 
 .end-game__text {
-  /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
   justify-content: center;

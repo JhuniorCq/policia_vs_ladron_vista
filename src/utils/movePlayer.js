@@ -1,4 +1,4 @@
-import { COLS, PC_MOVES, PLAYERS, ROLES, ROWS, USER_MOVES } from "./constants";
+import { COLS, PC_MOVES, PLAYERS, ROWS, USER_MOVES } from "./constants";
 
 export const movePlayer = (
   turn,
@@ -6,11 +6,7 @@ export const movePlayer = (
   userPositionStatus,
   takeStep,
   steps,
-  passNextTurn,
-  rol,
-  policePosition,
-  thiefPosition,
-  housePositions
+  passNextTurn
 ) => {
   const [playerPosition, setPlayerPosition] = userPositionStatus;
   const MOVES = turn === PLAYERS.USER ? USER_MOVES : PC_MOVES;
@@ -53,10 +49,6 @@ export const movePlayer = (
 
   // Verificar si el paso dado ha sido el último
   if (steps === 1 && validMove) {
-    if (rol === ROLES.POLICE) {
-      // if (policePosition.row === thiefPosition.row &&)
-    } else {
-    }
     passNextTurn();
   }
 

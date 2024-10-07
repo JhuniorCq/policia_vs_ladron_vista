@@ -1,5 +1,5 @@
 import "./Board.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   DIFFICULTIES,
   PLAYERS,
@@ -14,6 +14,7 @@ import houseImage from "../../assets/image/house.png";
 import { movePlayer } from "../../utils/movePlayer";
 import axios from "axios";
 import { manhattanDistance } from "../../utils/manhattanDistance";
+import { Loader } from "../Loader/Loader";
 
 export const Board = ({
   turn,
@@ -28,11 +29,13 @@ export const Board = ({
   housePositionsRobbed,
 }) => {
   const { gameSettings } = useContext(GameSettingsContext);
+
+  const [loading, setLoading] = useState(false);
+
   const userRol = gameSettings.players.player1.rol;
   const pcRol = gameSettings.players.player2.rol;
   const housePositions = gameSettings.housePositions;
   const difficulty = gameSettings.difficulty;
-  // const housePositionsRobbed = gameSettings.housePositionsRobbed;
 
   console.log(gameSettings);
 
@@ -97,12 +100,12 @@ export const Board = ({
         pcPositionStatus.push(setThiefPosition);
       }
 
-      // Movimientos automáticos para la IA (movimiento en una dirección o aleatorio)
-
       const moveInRandomDirection = async () => {
+        setLoading(true);
         // ROL: Policía
         if (pcRol === ROLES.POLICE) {
           if (difficulty === DIFFICULTIES.BEGINNER) {
+            // Algoritmo "No Determinístico"
             try {
               const {
                 data: { direction },
@@ -119,6 +122,8 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in non-deterministic.", error.message);
+            } finally {
+              setLoading(false);
             }
           } else if (difficulty === DIFFICULTIES.NORMAL) {
             // Algoritmo "Primero el Mejor"
@@ -143,6 +148,8 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in best first.", error.message);
+            } finally {
+              setLoading(false);
             }
           } else if (difficulty === DIFFICULTIES.EXPERT) {
             // Algoritmo "Minimax"
@@ -165,6 +172,8 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in minimax.", error.message);
+            } finally {
+              setLoading(false);
             }
           }
         } // ROL: Ladrón
@@ -185,6 +194,8 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in non-deterministic.", error.message);
+            } finally {
+              setLoading(false);
             }
           } else if (difficulty === DIFFICULTIES.NORMAL) {
             // Algoritmo "Primero el Mejor"
@@ -240,6 +251,8 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in best first.", error.message);
+            } finally {
+              setLoading(false);
             }
           } else if (difficulty === DIFFICULTIES.EXPERT) {
             // Algoritmo "Minimax"
@@ -294,57 +307,61 @@ export const Board = ({
               );
             } catch (error) {
               console.log("Error in minimax.", error.message);
+            } finally {
+              setLoading(false);
             }
           }
         }
       };
 
-      // Usamos setTimeOut para hacer los movimientos de la IA con un pequeño retraso entre cada uno
       const intervalId = setInterval(() => {
         if (steps > 0) {
           moveInRandomDirection();
         } else {
           clearInterval(intervalId);
         }
-      }, 700);
+      }, 600);
 
       return () => clearInterval(intervalId);
     }
   }, [turn, steps]);
 
   return (
-    <div className="board">
-      {Array(25)
-        .fill(null)
-        .map((_, i) =>
-          Array(20)
-            .fill(null)
-            .map((_, j) => {
-              let image;
+    <>
+      {loading && <Loader />}
+      <div className="board">
+        {Array(25)
+          .fill(null)
+          .map((_, i) =>
+            Array(20)
+              .fill(null)
+              .map((_, j) => {
+                let image;
 
-              if (policePosition.row === i && policePosition.col === j) {
-                image = policeImage;
-              } else if (thiefPosition.row === i && thiefPosition.col === j) {
-                image = thiefImage;
-              } else if (
-                housePositionsRobbed.some(
-                  (housePosition) =>
-                    housePosition.row === i && housePosition.col === j
-                )
-              ) {
-                image = "";
-              } else if (
-                housePositions.some(
-                  (housePosition) =>
-                    housePosition.row === i && housePosition.col === j
-                )
-              ) {
-                image = houseImage;
-              }
+                if (policePosition.row === i && policePosition.col === j) {
+                  image = policeImage;
+                } else if (thiefPosition.row === i && thiefPosition.col === j) {
+                  image = thiefImage;
+                } else if (
+                  housePositionsRobbed.some(
+                    (housePosition) =>
+                      housePosition.row === i && housePosition.col === j
+                  )
+                ) {
+                  image = "";
+                } else if (
+                  housePositions.some(
+                    (housePosition) =>
+                      housePosition.row === i && housePosition.col === j
+                  )
+                ) {
+                  image = houseImage;
+                }
 
-              return <Square key={`${i}-${j}`} image={image} />;
-            })
-        )}
-    </div>
+                return <Square key={`${i}-${j}`} image={image} />;
+              })
+          )}
+      </div>
+    </>
   );
 };

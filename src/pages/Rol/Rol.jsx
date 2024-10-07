@@ -9,12 +9,11 @@ import thiefImage from "../../assets/image/thief.png";
 import { BackButton } from "../../components/BackButton/BackButton";
 
 export const Rol = () => {
-  const [isExistsRol, setIsExistsRol] = useState(false);
   const { chooseRol } = useContext(GameSettingsContext);
   const navigate = useNavigate();
 
   const setRol = (rol) => {
-    setIsExistsRol(true);
+    // setIsExistsRol(true);
     chooseRol(rol);
     navigate("/game/start");
   };
