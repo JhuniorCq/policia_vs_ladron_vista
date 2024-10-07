@@ -14,6 +14,7 @@ export const Game = () => {
     defineStartTurn,
     defineHousePositions,
     addRobbedHouse,
+    resetRobbedHouses,
     endGame,
   } = useContext(GameSettingsContext);
   const [turn, setTurn] = useState(() => {
@@ -68,6 +69,7 @@ export const Game = () => {
     setScore("-");
     setSteps(0);
     setDisableRollDie(false);
+    resetRobbedHouses();
     setPolicePosition({ row: 0, col: 0 });
     setThiefPosition({
       row: ROWS - 1,

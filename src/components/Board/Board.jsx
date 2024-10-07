@@ -13,6 +13,7 @@ import thiefImage from "../../assets/image/thief.png";
 import houseImage from "../../assets/image/house.png";
 import { movePlayer } from "../../utils/movePlayer";
 import axios from "axios";
+import { manhattanDistance } from "../../utils/manhattanDistance";
 
 export const Board = ({
   turn,
@@ -120,15 +121,16 @@ export const Board = ({
               console.log("Error in non-deterministic.", error.message);
             }
           } else if (difficulty === DIFFICULTIES.NORMAL) {
+            // Algoritmo "Primero el Mejor"
             try {
               const {
                 data: { direction },
-              } = await axios.post(URL_SERVER, {
-                posicion_jugador: [],
-                posicion_objetivo: [],
+              } = await axios.post(`${URL_SERVER}/best-first`, {
+                posicion_jugador: [policePosition.row, policePosition.col],
+                posicion_objetivo: [thiefPosition.row, thiefPosition.col],
                 rol: pcRol,
-                pos_policia: [],
-                pos_ladron: [],
+                pos_policia: [policePosition.row, policePosition.col],
+                pos_ladron: [thiefPosition.row, thiefPosition.col],
               });
 
               movePlayer(
@@ -143,12 +145,13 @@ export const Board = ({
               console.log("Error in best first.", error.message);
             }
           } else if (difficulty === DIFFICULTIES.EXPERT) {
+            // Algoritmo "Minimax"
             try {
               const {
                 data: { direction },
-              } = await axios.post(URL_SERVER, {
-                posicion_jugador: [],
-                posicion_objetivo: [],
+              } = await axios.post(`${URL_SERVER}/minimax`, {
+                posicion_jugador: [policePosition.row, policePosition.col],
+                posicion_objetivo: [thiefPosition.row, thiefPosition.col],
                 profundidad: 3,
               });
 
@@ -184,29 +187,110 @@ export const Board = ({
               console.log("Error in non-deterministic.", error.message);
             }
           } else if (difficulty === DIFFICULTIES.NORMAL) {
+            // Algoritmo "Primero el Mejor"
+            const distanceHouses = [];
+
+            for (const housePosition of housePositions) {
+              if (
+                housePositionsRobbed.some(
+                  ([row, col]) =>
+                    row === housePosition.row && col === housePosition.col
+                )
+              ) {
+                continue;
+              }
+
+              const distanceHouse = manhattanDistance(
+                thiefPosition,
+                housePosition
+              );
+
+              distanceHouses.push({
+                distance: distanceHouse,
+                position: housePosition,
+              });
+            }
+
+            distanceHouses.sort((a, b) => a.distance - b.distance);
+
+            const positionHouseNearby = distanceHouses[0].position;
+
             try {
-              // const {
-              //   data: { direction },
-              // } = await axios.post("http://localhost:8000/best-first", {
-              //   posicion_jugador: [],
-              //   posicion_objetivo: [],
-              //   rol: pcRol,
-              //   pos_policia: [],
-              //   pos_ladron: [],
-              // });
-              // movePlayer(
-              //   turn,
-              //   direction,
-              //   pcPositionStatus,
-              //   takeStep,
-              //   steps,
-              //   passNextTurn
-              // );
+              const {
+                data: { direction },
+              } = await axios.post(`${URL_SERVER}/best-first`, {
+                posicion_jugador: [thiefPosition.row, thiefPosition.col],
+                posicion_objetivo: [
+                  positionHouseNearby.row,
+                  positionHouseNearby.col,
+                ],
+                rol: pcRol,
+                pos_policia: [policePosition.row, policePosition.col],
+                pos_ladron: [thiefPosition.row, thiefPosition.col],
+              });
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn
+              );
             } catch (error) {
               console.log("Error in best first.", error.message);
             }
           } else if (difficulty === DIFFICULTIES.EXPERT) {
+            // Algoritmo "Minimax"
+            const distanceHouses = [];
+
+            for (const housePosition of housePositions) {
+              if (
+                housePositionsRobbed.some(
+                  (robbedHousePosition) =>
+                    robbedHousePosition.row === housePosition.row &&
+                    robbedHousePosition.col === housePosition.col
+                )
+              ) {
+                continue;
+              }
+
+              const distanceHouse = manhattanDistance(
+                thiefPosition,
+                housePosition
+              );
+
+              distanceHouses.push({
+                distance: distanceHouse,
+                position: housePosition,
+              });
+            }
+
+            distanceHouses.sort((a, b) => a.distance - b.distance);
+
+            const positionHouseNearby = distanceHouses[0].position;
             try {
+              const {
+                data: { direction },
+              } = await axios.post(`${URL_SERVER}/best-first`, {
+                posicion_jugador: [thiefPosition.row, thiefPosition.col],
+                posicion_objetivo: [
+                  positionHouseNearby.row,
+                  positionHouseNearby.col,
+                ],
+                rol: pcRol,
+                pos_policia: [policePosition.row, policePosition.col],
+                pos_ladron: [thiefPosition.row, thiefPosition.col],
+              });
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn
+              );
             } catch (error) {
               console.log("Error in minimax.", error.message);
             }

@@ -75,6 +75,13 @@ export const GameSettingsProvider = ({ children }) => {
     }));
   };
 
+  const resetRobbedHouses = () => {
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      housePositionsRobbed: [],
+    }));
+  };
+
   return (
     <GameSettingsContext.Provider
       value={{
@@ -85,6 +92,7 @@ export const GameSettingsProvider = ({ children }) => {
         defineHousePositions,
         endGame,
         addRobbedHouse,
+        resetRobbedHouses,
       }}
     >
       {children}
