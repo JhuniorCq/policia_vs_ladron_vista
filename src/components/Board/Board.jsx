@@ -193,8 +193,9 @@ export const Board = ({
             for (const housePosition of housePositions) {
               if (
                 housePositionsRobbed.some(
-                  ([row, col]) =>
-                    row === housePosition.row && col === housePosition.col
+                  (robbedHousePosition) =>
+                    robbedHousePosition.row === housePosition.row &&
+                    robbedHousePosition.col === housePosition.col
                 )
               ) {
                 continue;
@@ -305,7 +306,7 @@ export const Board = ({
         } else {
           clearInterval(intervalId);
         }
-      }, 1000);
+      }, 500);
 
       return () => clearInterval(intervalId);
     }

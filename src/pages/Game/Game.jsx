@@ -3,10 +3,11 @@ import { Board } from "../../components/Board/Board";
 import { RollDie } from "../../components/RollDie/RollDie";
 import { GameData } from "../../components/GameData/GameData";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { COLS, NUMBER_HOUSES, PLAYERS, ROWS } from "../../utils/constants";
 import { generateHousePositions } from "../../utils/generateHousePositions";
+import { useNavigate } from "react-router-dom";
 
 export const Game = () => {
   const {
@@ -17,6 +18,13 @@ export const Game = () => {
     resetRobbedHouses,
     endGame,
   } = useContext(GameSettingsContext);
+
+  const navigate = useNavigate();
+
+  if (!gameSettings.difficulty || !gameSettings.players.player1.rol) {
+    navigate("/");
+  }
+
   const [turn, setTurn] = useState(() => {
     // Definimos el turno inicial
     const turnsKey = Object.keys(PLAYERS);
@@ -25,8 +33,6 @@ export const Game = () => {
     console.log("El turno inicial es de: ", randomTurn);
     return randomTurn;
   });
-
-  // const isFirstRender = useRef(true);
 
   const [policePosition, setPolicePosition] = useState({ row: 0, col: 0 });
   const [thiefPosition, setThiefPosition] = useState({

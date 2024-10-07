@@ -4,15 +4,10 @@ export const OptionButton = ({
   text,
   eventHandler,
   className,
-  disabledButton,
+  // disabledButton,
 }) => {
   return (
-    <button
-      className={
-        disabledButton ? `${className} option-button--disabled` : className
-      }
-      onClick={eventHandler}
-    >
+    <button className={className} onClick={eventHandler}>
       {text}
     </button>
   );
