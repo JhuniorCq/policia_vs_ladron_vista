@@ -1,12 +1,18 @@
 import "./Board.css";
 import { useContext, useEffect } from "react";
-import { PLAYERS, ROLES } from "../../utils/constants";
+import {
+  DIFFICULTIES,
+  PLAYERS,
+  ROLES,
+  URL_SERVER,
+} from "../../utils/constants";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
 import { Square } from "../Square/Square";
 import policeImage from "../../assets/image/police.png";
 import thiefImage from "../../assets/image/thief.png";
 import houseImage from "../../assets/image/house.png";
 import { movePlayer } from "../../utils/movePlayer";
+import axios from "axios";
 
 export const Board = ({
   turn,
@@ -23,6 +29,8 @@ export const Board = ({
   const userRol = gameSettings.players.player1.rol;
   const pcRol = gameSettings.players.player2.rol;
   const housePositions = gameSettings.housePositions;
+  const difficulty = gameSettings.difficulty;
+  const housePositionsRobbed = gameSettings.housePositionsRobbed;
 
   console.log(gameSettings);
 
@@ -40,14 +48,18 @@ export const Board = ({
       userPositionStatus.push(setThiefPosition);
     }
 
-    console.log(event);
     movePlayer(
       turn,
       event.key,
       userPositionStatus,
       takeStep,
       steps,
-      passNextTurn
+      passNextTurn,
+      userRol,
+      policePosition,
+      thiefPosition,
+      housePositions
+      // housePositionsRobbed
     );
   };
 
@@ -85,18 +97,121 @@ export const Board = ({
       }
 
       // Movimientos automáticos para la IA (movimiento en una dirección o aleatorio)
-      const directions = ["w", "s", "a", "d"];
-      const moveInRandomDirection = () => {
-        const randomDirection =
-          directions[Math.floor(Math.random() * directions.length)];
-        movePlayer(
-          turn,
-          randomDirection,
-          pcPositionStatus,
-          takeStep,
-          steps,
-          passNextTurn
-        );
+
+      const moveInRandomDirection = async () => {
+        // ROL: Policía
+        if (pcRol === ROLES.POLICE) {
+          if (difficulty === DIFFICULTIES.BEGINNER) {
+            try {
+              const {
+                data: { direction },
+              } = await axios.get(`${URL_SERVER}/non-deterministic`);
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn,
+                pcRol
+              );
+            } catch (error) {
+              console.log("Error in non-deterministic.", error.message);
+            }
+          } else if (difficulty === DIFFICULTIES.NORMAL) {
+            try {
+              const {
+                data: { direction },
+              } = await axios.post(URL_SERVER, {
+                posicion_jugador: [],
+                posicion_objetivo: [],
+                rol: pcRol,
+                pos_policia: [],
+                pos_ladron: [],
+              });
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn
+              );
+            } catch (error) {
+              console.log("Error in best first.", error.message);
+            }
+          } else if (difficulty === DIFFICULTIES.EXPERT) {
+            try {
+              const {
+                data: { direction },
+              } = await axios.post(URL_SERVER, {
+                posicion_jugador: [],
+                posicion_objetivo: [],
+                profundidad: 3,
+              });
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn
+              );
+            } catch (error) {
+              console.log("Error in minimax.", error.message);
+            }
+          }
+        } // ROL: Ladrón
+        else if (pcRol === ROLES.THIEF) {
+          if (difficulty === DIFFICULTIES.BEGINNER) {
+            try {
+              const {
+                data: { direction },
+              } = await axios.get(`${URL_SERVER}/non-deterministic`);
+
+              movePlayer(
+                turn,
+                direction,
+                pcPositionStatus,
+                takeStep,
+                steps,
+                passNextTurn
+              );
+            } catch (error) {
+              console.log("Error in non-deterministic.", error.message);
+            }
+          } else if (difficulty === DIFFICULTIES.NORMAL) {
+            try {
+              // const {
+              //   data: { direction },
+              // } = await axios.post("http://localhost:8000/best-first", {
+              //   posicion_jugador: [],
+              //   posicion_objetivo: [],
+              //   rol: pcRol,
+              //   pos_policia: [],
+              //   pos_ladron: [],
+              // });
+              // movePlayer(
+              //   turn,
+              //   direction,
+              //   pcPositionStatus,
+              //   takeStep,
+              //   steps,
+              //   passNextTurn
+              // );
+            } catch (error) {
+              console.log("Error in best first.", error.message);
+            }
+          } else if (difficulty === DIFFICULTIES.EXPERT) {
+            try {
+            } catch (error) {
+              console.log("Error in minimax.", error.message);
+            }
+          }
+        }
       };
 
       // Usamos setTimeOut para hacer los movimientos de la IA con un pequeño retraso entre cada uno
@@ -120,17 +235,19 @@ export const Board = ({
           Array(20)
             .fill(null)
             .map((_, j) => {
-              // const isPolice =
-              //   policePosition.row === i && policePosition.col === j;
-              // const isThief =
-              //   thiefPosition.row === i && thiefPosition.col === j;
-
               let image;
 
               if (policePosition.row === i && policePosition.col === j) {
                 image = policeImage;
               } else if (thiefPosition.row === i && thiefPosition.col === j) {
                 image = thiefImage;
+              } else if (
+                housePositionsRobbed.some(
+                  (housePosition) =>
+                    housePosition.row === i && housePosition.col === j
+                )
+              ) {
+                image = "";
               } else if (
                 housePositions.some(
                   (housePosition) =>

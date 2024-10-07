@@ -8,6 +8,8 @@ export const GameSettingsProvider = ({ children }) => {
     difficulty: "",
     startTurn: "",
     housePositions: [],
+    housePositionsRobbed: [],
+    gameEnded: false,
     players: {
       player1: {
         rol: "",
@@ -59,6 +61,20 @@ export const GameSettingsProvider = ({ children }) => {
     }));
   };
 
+  const endGame = (gameEnded) => {
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      gameEnded,
+    }));
+  };
+
+  const addRobbedHouse = (robbedHouse) => {
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      housePositionsRobbed: [...prevSettings.housePositionsRobbed, robbedHouse],
+    }));
+  };
+
   return (
     <GameSettingsContext.Provider
       value={{
@@ -67,6 +83,8 @@ export const GameSettingsProvider = ({ children }) => {
         chooseRol,
         defineStartTurn,
         defineHousePositions,
+        endGame,
+        addRobbedHouse,
       }}
     >
       {children}

@@ -5,12 +5,17 @@ import { GameData } from "../../components/GameData/GameData";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
-import { COLS, PLAYERS, ROWS } from "../../utils/constants";
+import { COLS, NUMBER_HOUSES, PLAYERS, ROWS } from "../../utils/constants";
 import { generateHousePositions } from "../../utils/generateHousePositions";
 
 export const Game = () => {
-  const { gameSettings, defineStartTurn, defineHousePositions } =
-    useContext(GameSettingsContext);
+  const {
+    gameSettings,
+    defineStartTurn,
+    defineHousePositions,
+    addRobbedHouse,
+    endGame,
+  } = useContext(GameSettingsContext);
   const [turn, setTurn] = useState(() => {
     // Definimos el turno inicial
     const turnsKey = Object.keys(PLAYERS);
@@ -74,6 +79,47 @@ export const Game = () => {
     defineHousePositions(generateHousePositions());
     defineStartTurn(turn);
   }, []);
+
+  // Robar una casa
+  useEffect(() => {
+    if (steps === 0) {
+      const { housePositions } = gameSettings;
+
+      const robbedHouse = housePositions.find(
+        (house) =>
+          thiefPosition.row === house.row && thiefPosition.col === house.col
+      );
+
+      if (robbedHouse) {
+        addRobbedHouse(robbedHouse);
+      }
+    }
+  }, [thiefPosition]);
+
+  // Victoria del Policía
+  useEffect(() => {
+    if (steps === 0) {
+      if (
+        policePosition.row === thiefPosition.row &&
+        policePosition.col === thiefPosition.col
+      ) {
+        endGame(true);
+        alert("Ganó el Policía");
+      }
+    }
+  }, [policePosition]);
+
+  // Victoria del Ladrón
+  useEffect(() => {
+    if (steps === 0) {
+      const { housePositionsRobbed } = gameSettings;
+
+      if (housePositionsRobbed.length === NUMBER_HOUSES) {
+        endGame(true);
+        alert("Ganó el Ladrón");
+      }
+    }
+  }, [thiefPosition]);
 
   return (
     <div className="game">

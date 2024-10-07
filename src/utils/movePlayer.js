@@ -6,7 +6,11 @@ export const movePlayer = (
   userPositionStatus,
   takeStep,
   steps,
-  passNextTurn
+  passNextTurn,
+  rol,
+  policePosition,
+  thiefPosition,
+  housePositions
 ) => {
   const [playerPosition, setPlayerPosition] = userPositionStatus;
   const MOVES = turn === PLAYERS.USER ? USER_MOVES : PC_MOVES;
@@ -49,6 +53,10 @@ export const movePlayer = (
 
   // Verificar si el paso dado ha sido el último
   if (steps === 1 && validMove) {
+    if (rol === ROLES.POLICE) {
+      // if (policePosition.row === thiefPosition.row &&)
+    } else {
+    }
     passNextTurn();
   }
 
