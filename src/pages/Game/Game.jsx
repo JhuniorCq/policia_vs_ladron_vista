@@ -5,25 +5,33 @@ import { GameData } from "../../components/GameData/GameData";
 import { OptionButton } from "../../components/OptionButton/OptionButton";
 import { useContext, useEffect, useState } from "react";
 import { GameSettingsContext } from "../../context/GameSettings/GameSettingsContext";
-import { COLS, NUMBER_HOUSES, PLAYERS, ROWS } from "../../utils/constants";
+import {
+  COLS,
+  NUMBER_HOUSES,
+  PLAYERS,
+  ROLES,
+  ROWS,
+} from "../../utils/constants";
 import { generateHousePositions } from "../../utils/generateHousePositions";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { EndGameModal } from "../../components/EndGameModal/EndGameModal";
 
 export const Game = () => {
   const {
     gameSettings,
     defineStartTurn,
     defineHousePositions,
-    addRobbedHouse,
+    // addRobbedHouse,
     resetRobbedHouses,
-    endGame,
+    // endGame,
+    setWinner,
   } = useContext(GameSettingsContext);
 
-  const navigate = useNavigate();
-
   if (!gameSettings.difficulty || !gameSettings.players.player1.rol) {
-    navigate("/");
+    return <Navigate to="/" />;
   }
+
+  const [endGame, setEndGame] = useState(false);
 
   const [turn, setTurn] = useState(() => {
     // Definimos el turno inicial
@@ -42,6 +50,8 @@ export const Game = () => {
 
   const [score, setScore] = useState("-");
   const [steps, setSteps] = useState(0);
+
+  const [housePositionsRobbed, setHousePositionsRobbed] = useState([]);
 
   const [disabledRollDie, setDisableRollDie] = useState(false);
 
@@ -99,7 +109,8 @@ export const Game = () => {
       );
 
       if (robbedHouse) {
-        addRobbedHouse(robbedHouse);
+        console.log("ESTOY ROBANDO LA CASA ", robbedHouse);
+        setHousePositionsRobbed((prev) => [...prev, robbedHouse]);
       }
     }
   }, [thiefPosition]);
@@ -111,8 +122,9 @@ export const Game = () => {
         policePosition.row === thiefPosition.row &&
         policePosition.col === thiefPosition.col
       ) {
-        endGame(true);
-        alert("Ganó el Policía");
+        setEndGame(true);
+        setWinner(ROLES.POLICE);
+        // alert("Ganó el Policía");
       }
     }
   }, [policePosition]);
@@ -120,50 +132,59 @@ export const Game = () => {
   // Victoria del Ladrón
   useEffect(() => {
     if (steps === 0) {
-      const { housePositionsRobbed } = gameSettings;
-
+      // const { housePositionsRobbed } = gameSettings;
+      console.log("CASAS ROBADAS: ", housePositionsRobbed);
+      console.log("CANTIDAD CASAS ROBADASA: ", housePositionsRobbed.length);
       if (housePositionsRobbed.length === NUMBER_HOUSES) {
-        endGame(true);
-        alert("Ganó el Ladrón");
+        console.log("COMÍ TODAS LAS CASAS");
+        setEndGame(true);
+        setWinner(ROLES.THIEF);
+        // alert("Ganó el Ladrón");
       }
     }
-  }, [thiefPosition]);
+  }, [housePositionsRobbed]);
 
   return (
-    <div className="game">
-      <Board
-        turn={turn}
-        takeStep={takeStep}
-        steps={steps}
-        policePosition={policePosition}
-        setPolicePosition={setPolicePosition}
-        thiefPosition={thiefPosition}
-        setThiefPosition={setThiefPosition}
-        rollDie={rollDie}
-        passNextTurn={passNextTurn}
-      />
-      <div className="game__options">
-        <GameData
-          difficulty={gameSettings.difficulty}
-          rol={
-            turn === PLAYERS.USER
-              ? gameSettings.players.player1.rol
-              : gameSettings.players.player2.rol
-          }
+    <>
+      {endGame && (
+        <EndGameModal winner={gameSettings.winner} endGame={endGame} />
+      )}
+      <div className="game">
+        <Board
           turn={turn}
+          takeStep={takeStep}
           steps={steps}
-        />
-        <RollDie
-          score={score}
+          policePosition={policePosition}
+          setPolicePosition={setPolicePosition}
+          thiefPosition={thiefPosition}
+          setThiefPosition={setThiefPosition}
           rollDie={rollDie}
-          disabledRollDie={disabledRollDie}
+          passNextTurn={passNextTurn}
+          housePositionsRobbed={housePositionsRobbed}
         />
-        <OptionButton
-          className="game__reset-button"
-          text="REINICIAR"
-          eventHandler={reset}
-        />
+        <div className="game__options">
+          <GameData
+            difficulty={gameSettings.difficulty}
+            rol={
+              turn === PLAYERS.USER
+                ? gameSettings.players.player1.rol
+                : gameSettings.players.player2.rol
+            }
+            turn={turn}
+            steps={steps}
+          />
+          <RollDie
+            score={score}
+            rollDie={rollDie}
+            disabledRollDie={disabledRollDie}
+          />
+          <OptionButton
+            className="game__reset-button"
+            text="REINICIAR"
+            eventHandler={reset}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };

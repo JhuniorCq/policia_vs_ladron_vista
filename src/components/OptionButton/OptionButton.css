@@ -9,7 +9,7 @@
   align-content: center;
   font-size: 3rem;
   border-radius: 40px;
-  text-shadow: 2px 0 0 black;
+  text-shadow: 2px 1px 0 black;
   cursor: pointer;
   transition: scale 0.3s ease-in-out;
 }

@@ -25,13 +25,14 @@ export const Board = ({
   setThiefPosition,
   rollDie,
   passNextTurn,
+  housePositionsRobbed,
 }) => {
   const { gameSettings } = useContext(GameSettingsContext);
   const userRol = gameSettings.players.player1.rol;
   const pcRol = gameSettings.players.player2.rol;
   const housePositions = gameSettings.housePositions;
   const difficulty = gameSettings.difficulty;
-  const housePositionsRobbed = gameSettings.housePositionsRobbed;
+  // const housePositionsRobbed = gameSettings.housePositionsRobbed;
 
   console.log(gameSettings);
 
@@ -60,7 +61,6 @@ export const Board = ({
       policePosition,
       thiefPosition,
       housePositions
-      // housePositionsRobbed
     );
   };
 
@@ -306,7 +306,7 @@ export const Board = ({
         } else {
           clearInterval(intervalId);
         }
-      }, 500);
+      }, 700);
 
       return () => clearInterval(intervalId);
     }

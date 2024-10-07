@@ -8,8 +8,9 @@ export const GameSettingsProvider = ({ children }) => {
     difficulty: "",
     startTurn: "",
     housePositions: [],
-    housePositionsRobbed: [],
-    gameEnded: false,
+    // housePositionsRobbed: [],
+    // gameEnded: false,
+    winner: "",
     players: {
       player1: {
         rol: "",
@@ -61,24 +62,31 @@ export const GameSettingsProvider = ({ children }) => {
     }));
   };
 
-  const endGame = (gameEnded) => {
-    setGameSettings((prevSettings) => ({
-      ...prevSettings,
-      gameEnded,
-    }));
-  };
+  // const endGame = (gameEnded) => {
+  //   setGameSettings((prevSettings) => ({
+  //     ...prevSettings,
+  //     gameEnded,
+  //   }));
+  // };
 
-  const addRobbedHouse = (robbedHouse) => {
-    setGameSettings((prevSettings) => ({
-      ...prevSettings,
-      housePositionsRobbed: [...prevSettings.housePositionsRobbed, robbedHouse],
-    }));
-  };
+  // const addRobbedHouse = (robbedHouse) => {
+  //   setGameSettings((prevSettings) => ({
+  //     ...prevSettings,
+  //     housePositionsRobbed: [...prevSettings.housePositionsRobbed, robbedHouse],
+  //   }));
+  // };
 
   const resetRobbedHouses = () => {
     setGameSettings((prevSettings) => ({
       ...prevSettings,
       housePositionsRobbed: [],
+    }));
+  };
+
+  const setWinner = (winner) => {
+    setGameSettings((prevSettings) => ({
+      ...prevSettings,
+      winner,
     }));
   };
 
@@ -90,9 +98,10 @@ export const GameSettingsProvider = ({ children }) => {
         chooseRol,
         defineStartTurn,
         defineHousePositions,
-        endGame,
-        addRobbedHouse,
+        // endGame,
+        // addRobbedHouse,
         resetRobbedHouses,
+        setWinner,
       }}
     >
       {children}

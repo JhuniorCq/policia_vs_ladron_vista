@@ -38,4 +38,4 @@ export const PC_MOVES = {
 
 export const NUMBER_HOUSES = 7;
 
-export const URL_SERVER = "http://localhost:8000";
+export const URL_SERVER = "https://policia-vs-ladron-servidor.onrender.com";
